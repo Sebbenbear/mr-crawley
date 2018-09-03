@@ -9,6 +9,8 @@ A small sitemap generator.
    - .png
 - Is the sitemap directed or undirected?
 - How are the internal links represented?
+- We need to show the static assets each url depends on
+- Show the links between pages
 
 ### What links should we include?
 - Internal links can start with a /, for example `/archive`
