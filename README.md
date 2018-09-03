@@ -1,2 +1,2 @@
-# web-wriggler
-A small web crawler
+# mr-crawley
+A small sitemap generator, named after a character from Downtown Abbey.
