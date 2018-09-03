@@ -1,33 +1,31 @@
+import sys
 import urllib.request
+import urllib.parse
 from bs4 import BeautifulSoup
+from time import time
+root_url = sys.argv[1]
 
-# https://stackoverflow.com/questions/9029822/how-can-i-bring-google-like-recrawling-in-my-applicationweb-or-console/9099798#9099798
-def scrape(root_url, url):
-    # do some conditional checking here
-    url = root_url + url
+def scrape_url(root_url, url):
+    # if link.startswith('/'):
+    #     url = parse.urljoin(root_url, url)
     url = urllib.request.urlopen(url).read()
     soup = BeautifulSoup(url, 'html.parser')
     link_tags = soup.find_all('a')
-    links = [link['href'] for link in link_tags if 'href' in link.attrs.keys() and link['href'].startswith('.')]
-    return links
+    links = [link['href'] for link in link_tags]
+    # internal_links = [link for link in links if link.startswith('/') or link.startswith(root_url)]
+    internal_links = [link for link in links if link.startswith(root_url)]
+    return internal_links
 
-root_url = 'https://vaibhavsagar.com/'
-
-# visited = set()
-# urls = []
-# urls.extend(scrape('', root_url))
-# while urls:
-#     url = urls.pop()
-#     visited.add(url)
-#     urls.extend([link for link in scrape(root_url, url) if link not in visited])
-# print(visited)
-
-site_map = {root_url: {}}
-
+site_map = []
 visited = set()
-urls = scrape('', root_url)
-for url in urls:
-    site_map[url] = scrape(root_url, url)
+urls = [root_url]
 
-print(site_map)
+while urls:
+    url = urls.pop()
+    visited.add(url)
+    new_urls = scrape_url(root_url, url)
+    site_map.extend(new_urls)
+    urls.extend([url for url in new_urls if url not in visited])
 
+for url in site_map:
+    print(url)
