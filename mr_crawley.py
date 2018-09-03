@@ -1,7 +1,7 @@
 from time import time
 
 start = time()
-
+from collections import deque
 import sys
 import urllib.request
 import urllib.parse
@@ -10,19 +10,19 @@ from bs4 import BeautifulSoup
 root_url = sys.argv[1]
 
 def scrape_url(root_url, url):
-    # if link.startswith('/'):
-    #     url = parse.urljoin(root_url, url)
     url = urllib.request.urlopen(url).read()
     soup = BeautifulSoup(url, 'html.parser')
     link_tags = soup.find_all('a')
-    links = [link['href'] for link in link_tags]
-    # internal_links = [link for link in links if link.startswith('/') or link.startswith(root_url)]
-    internal_links = [link for link in links if link.startswith(root_url)]
-    return internal_links
+    result = deque()
+    for link in link_tags:
+        current_link = link['href']
+        if current_link.startswith(root_url):
+            result.append(current_link)
+    return result
 
-site_map = []
+site_map = deque()
 visited = set()
-urls = [root_url]
+urls = deque([root_url])
 
 while urls:
     url = urls.pop()
