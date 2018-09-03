@@ -1,8 +1,12 @@
+from time import time
+
+start = time()
+
 import sys
 import urllib.request
 import urllib.parse
 from bs4 import BeautifulSoup
-from time import time
+
 root_url = sys.argv[1]
 
 def scrape_url(root_url, url):
@@ -29,3 +33,6 @@ while urls:
 
 for url in site_map:
     print(url)
+
+end = time()
+print('Time taken: {0:.2f}'.format(end-start))
