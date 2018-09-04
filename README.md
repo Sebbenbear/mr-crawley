@@ -37,3 +37,23 @@ Some of the options:
 - Generate a pdf with nodes (circles) with text inside(url) and directed lines linking to other nodes
 - Display adjacency matrix
 - Create XML document
+
+### Set up the Virtual Environment
+
+Install pyenv if you don't have it already, to manage the different python runtimes you might need. If you're on OSX, use homebrew with the following command, otherwise defer to the [github page](https://github.com/pyenv/pyenv)
+`brew install pyenv`
+
+Locate the version of Python to install in your home directory.
+`pyenv versions -l`
+
+Install the version you want, for example 3.7.0.
+`pyenv install 3.7.0`
+
+Create the virtual environment, for example:
+`~/.pyenv/versions/3.7.0/bin/python -m venv venv`
+
+Next, we should activate our new virtual environment.
+`source ./venv/bin/activate`
+
+We should then generate our requirements.txt file for others to use later.
+`pip freeze > requirements.txt`
