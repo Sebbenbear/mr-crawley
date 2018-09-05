@@ -28,6 +28,7 @@ visited = set()
 urls = deque([root_url])
 
 while urls:
+    # url = urls.popleft() - switching to BFS is very costly for this example.
     url = urls.pop()
     visited.add(url)
     new_urls = scrape_url(root_url, url)
