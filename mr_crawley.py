@@ -6,6 +6,7 @@ import sys
 import urllib.request
 import urllib.parse
 from bs4 import BeautifulSoup
+from urltools import normalize
 
 import aiohttp
 import asyncio
@@ -20,7 +21,7 @@ def scrape_url(root_url, url):
     for link in link_tags:
         current_link = link['href']
         if current_link.startswith(root_url):
-            result.append(current_link)
+            result.append(normalize(current_link))
     return result
 
 site_map = defaultdict(set)
