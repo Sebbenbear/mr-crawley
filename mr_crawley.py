@@ -33,7 +33,7 @@ while urls:
     new_urls = scrape_url(root_url, url)
     for new_url in new_urls:
         site_map[url].add(new_url)
-    urls.extend([url for url in new_urls if url not in visited])
+    urls.extend((url for url in new_urls if url not in visited))
 
 # Finally, print the site map
 for url in site_map:
