@@ -67,6 +67,7 @@ def producer():
 # Define our workers to get a url off the queue, process it, and add things back onto the queue
 def worker():
     while True:
+        print('Top of worker thread for {}'.format(current_thread()))
         url = messages_for_workers.get()
         if url is None:
             break
@@ -79,6 +80,7 @@ def worker():
             messages_for_producer.put(('url_for_processing', (url, new_url))) # add everything to messages_for_producer
 
         messages_for_producer.put(('worker_task_complete', url))
+        print('Bottom of worker thread for {}'.format(current_thread()))
 
 threads = []
 
@@ -93,7 +95,7 @@ for i in range(NUM_WORKER_THREADS):
     threads.append(t)
 
 # Put the root url in the queue
-messages_for_producer.put(('found', ('root', root_url)))
+messages_for_producer.put(('url_for_processing', ('root', root_url)))
 
 for t in threads:
     t.join()  # wait for all the threads to finish
